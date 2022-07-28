@@ -8,7 +8,7 @@ from django.contrib import auth
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-
+# admin: 'Devang' Password: 'mirajeev'
 # Create your views here.
 from . import forms
 
