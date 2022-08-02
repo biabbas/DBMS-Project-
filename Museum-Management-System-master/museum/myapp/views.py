@@ -8,7 +8,9 @@ from django.contrib import auth
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-# admin: 'Devang' Password: 'mirajeev'
+from datetime import datetime
+#Md Abbas is Admin
+
 # Create your views here.
 from . import forms
 
@@ -32,7 +34,7 @@ def check_number(s):
 
 
 def check_dob(s):
-    from datetime import datetime
+
     l = s.split('-')
     if len(l) != 3:
         return False
@@ -43,6 +45,7 @@ def check_dob(s):
         l[1]) or not check_number(
             l[2]):
         return False
+
     #date = datetime.strptime(s, "%Y-%m-%d").date()
     date = datetime(int(l[0]), int(l[1]), int(l[2]))
     return date < datetime.now()
@@ -80,6 +83,7 @@ def check_dob_fwd(s):
 
 
 def index(request):
+    return HttpResponse(render(request, "loginform.html"))
     form = forms.LoginForm(request.POST or None)
     context = {"form": form}
     if form.is_valid():
@@ -150,7 +154,7 @@ def loginform(request):
                 auth.login(request, user)
                 return HttpResponseRedirect('/visitorpage/')
             else:
-                return HttpResponse("signup unsuccessful!")
+                return HttpResponse("signup Unsuccessful!")
 
     # 	c = connection.cursor()
     # 	c.execute("select * from EMPLOYEE where Name = %s and Emp_Password = %s", (fullname,password,))
@@ -206,10 +210,10 @@ def show(request):
 
 @login_required
 def administrator(request):
-    if request.user.username == "Devang" and request.user.email == "Admin":
+    if request.user.username == "mdabbas" and request.user.email == "bimohammadabbas@gmail.com":
         print ("password :", request.user.password)
         context = {}
-        context["Name"] = "Devang"
+        context["Name"] = "Md Abbas"
 
         c = connection.cursor()
         c.execute("select * from EMPLOYEE")
@@ -223,7 +227,8 @@ def administrator(request):
             "Date of birth",
             "Sex",
             "Designation",
-            "Address"]
+            "Address",
+            "Phone Number"]
 
         c = connection.cursor()
         c.execute("select * from ARTIFACT")
@@ -267,9 +272,9 @@ def administrator(request):
 
 @login_required
 def artist_reg(request):
-    if request.user.username == "Devang" and request.user.email == "Admin":
+    if request.user.username == "mdabbas" and request.user.email == "bimohammadabbas@gmail.com":
         context = {}
-        context["Name"] = "Devang"
+        context["Name"] = "Mr. Abbas"
 
         if request.method == "POST":
 
@@ -304,7 +309,7 @@ def artist_reg(request):
             if not check_dob(Begin_date):
                 context["error"] = "Begin date should be valid"
                 return render(request, "reg_artist.html", context)
-            if End_Date != '2100-12-31' and not check_dob(End_date):
+            if not check_dob(End_date):
                 context["error"] = "End date should be valid"
                 return render(request, "reg_artist.html", context)
             if not check_number(Phone):
@@ -356,9 +361,9 @@ def get_artist_id(artist):
 
 @login_required
 def artifact_reg(request):
-    if request.user.username == "Devang" and request.user.email == "Admin":
+    if request.user.username == "mdabbas" and request.user.email == "bimohammadabbas@gmail.com":
         context = {}
-        context["Name"] = "Devang"
+        context["Name"] = "Md Abbas"
 
         if request.method == "POST":
 
@@ -378,9 +383,9 @@ def artifact_reg(request):
                 "date": Date_acquired,
                 "noc": Number_of_copies,
                 "description": Description}
-            context["Name"] = "Devang"
+            context["Name"] = "Md Abbas"
 
-            if not check_dob(Date):
+            if not check_dob(Date_acquired):
                 context["error"] = "Date acquired must be valid and in correct format"
                 return render(request, "reg_artifact.html", context)
 
@@ -445,9 +450,9 @@ def get_emp_ID(name):
 
 @login_required
 def emp_reg(request):
-    if request.user.username == "Devang" and request.user.email == "Admin":
+    if request.user.username == "mdabbas" and request.user.email == "bimohammadabbas@gmail.com":
         context = {}
-        context["Name"] = "Devang"
+        context["Name"] = request.user.username
 
         if request.method == "POST":
 
@@ -459,8 +464,7 @@ def emp_reg(request):
             Sex = request.POST.get("sex")
             Designation = request.POST.get("designation")
             Address = request.POST.get("address")
-            Phone1 = request.POST.get("phone1")
-            Phone2 = request.POST.get("phone2")
+            Phone = request.POST.get("phone")
             context = {
                 "fname": Firstname,
                 "lname": Lastname,
@@ -469,9 +473,9 @@ def emp_reg(request):
                 "sex": Sex,
                 "designation": Designation,
                 "address": Address,
-                "phone1": Phone1,
-                "phone2": Phone2}
-            context["Name"] = "Devang"
+                "phone": Phone,
+            }
+            context["Name"] = request.user.username
             if not check_text(Firstname):
                 context["error"] = "Firstname can contain only lowercase/uppercase alphabets"
                 return render(request, "reg_emp.html", context)
@@ -484,19 +488,12 @@ def emp_reg(request):
             if Sex not in ['M', 'F']:
                 context["error"] = "Sex can be either M or F"
                 return render(request, "reg_emp.html", context)
-            if not check_number(Phone1):
+            if not check_number(Phone):
                 context["error"] = "Contact field can contain only digits(0-9)"
                 return render(request, "reg_emp.html", context)
-            if len(Phone1) != 10:
+            if len(Phone) != 10:
                 context["error"] = "Contact should be of 10 digits"
                 return render(request, "reg_emp.html", context)
-            if Phone2 != '' and not check_number(Phone2):
-                context["error"] = "Contact field can contain only digits(0-9)"
-                return render(request, "reg_emp.html", context)
-            if Phone2 != '' and len(Phone2) != 10:
-                context["error"] = "Contact should be of 10 digits"
-                return render(request, "reg_emp.html", context)
-
             c = connection.cursor()
             c.execute("select Name from DEPARTMENT where Name=('%s')" %
                       Department)
@@ -516,14 +513,9 @@ def emp_reg(request):
 
             c = connection.cursor()
             c.execute(
-                "Insert into EMPLOYEE(Dept_ID,Name,Date_of_birth,Sex,Designation,Address) values ('%s','%s','%s','%s','%s','%s')" %
-                (Dept_ID, Name, Date_of_birth, Sex, Designation, Address))
-            Emp_ID = get_emp_ID(Name)
-            c.execute("Insert into EMPLOYEECONTACT values ('%s','%s')" %
-                      (Emp_ID, Phone1))
-            if Phone2 != '':
-                c.execute("Insert into EMPLOYEECONTACT values ('%s','%s')" %
-                          (Emp_ID, Phone2))
+                "Insert into EMPLOYEE(Dept_ID,Name,Date_of_birth,Sex,Designation,Address,Phone) values ('%s','%s','%s','%s','%s','%s','%s')" %
+                (Dept_ID, Name, Date_of_birth, Sex, Designation, Address,Phone))
+
             c.close()
 
             return HttpResponse("New employee added successfully")
@@ -535,9 +527,9 @@ def emp_reg(request):
 
 @login_required
 def department_reg(request):
-    if request.user.username == "Devang" and request.user.email == "Admin":
+    if request.user.username == "mdabbas" and request.user.email == "bimohammadabbas@gmail.com":
         context = {}
-        context["Name"] = "Devang"
+        context["Name"] = "Md Abbas"
 
         if request.method == "POST":
 
@@ -792,7 +784,7 @@ def edit_profile(request):
         context = {}
         context["Name"] = request.user.username
         Name = request.user.username
-        context["fname"] = Name.split(' ')[0]
+        context["fname"]= Name
         context["lname"] = Name.split(' ')[1]
         Visitor_ID = get_visitor_id(Name)
 
