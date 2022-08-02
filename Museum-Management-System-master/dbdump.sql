@@ -132,32 +132,9 @@ LOCK TABLES `EMPLOYEE` WRITE;
 INSERT INTO `EMPLOYEE` VALUES (101,3,'Arjun Rathee','1996-03-12','M','Head_of_Department','31, Arya Nagar, Agra'),(102,5,'Ayush Mehta','1946-03-12','M','Sweeper','21, Khao Gali, Agra'),(103,8,'Lovely Khanna','1956-05-12','F','Accountant','Arjun Nagar, Agra'),(104,10,'Lovish Tyagi','1966-01-14','M','Head_of_Department','Sector-56, Noida'),(105,10,'Pablo Escobar','0000-00-00','M','Ticket_manager','22, Wall Street, Noida'),(106,10,'Jon Snow','1996-04-12','M','Guide','Sector-2, Noida'),(107,1,'Lady Stonehart','0000-00-00','F','Head_of_Department','87 RamaPlaza Delhi'),(108,1,'Samwell Tarly','1976-03-21','M','Accountant','20 Juhu Colony, Delhi'),(109,12,'Steve S.','0000-00-00','M','Guide','44, Khao Gali, Delhi'),(110,13,'Millind M.','1996-08-09','M','Guide','54, Ram Gali , Kolkata'),(111,2,'Narendra Pratap','1989-03-23','M','Head_of_Department','24 RamGali Kolkata'),(112,13,'Aman Gupta','0000-00-00','M','Guide','22, Ram Gali , Kolkata'),(113,4,'Deepak Yadav','2001-03-20','M','Accountant','34,RajoriGarden, Hyderabad'),(114,4,'Kanika Khandelwal','1976-02-18','F','Head_of_Department','64,RajoriGarden, Hyderabad'),(115,11,'Shweta Arora','0000-00-00','F','Ticket_manager','3,RajoriGarden, Hyderabad'),(116,17,'Devang Kulshreshtha','1996-08-12','M','Software Engineer','IIT BHU Varanasi'),(117,5,'Mayank Kulshreshtha','1991-08-18','M','Part','Khargar,'),(118,5,'Vaishali Kulshreshtha','1991-08-18','M','Part','Khargar,'),(119,8,'Divyam Goyal','2000-09-09','M','Coder(Competitive)','Jaipur');
 /*!40000 ALTER TABLE `EMPLOYEE` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `EMPLOYEECONTACT`
---
-
-DROP TABLE IF EXISTS `EMPLOYEECONTACT`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `EMPLOYEECONTACT` (
-  `Emp_ID` int(11) NOT NULL,
-  `Phone` decimal(12,0) NOT NULL,
-  PRIMARY KEY (`Emp_ID`,`Phone`),
-  CONSTRAINT `EMPLOYEECONTACT_ibfk_1` FOREIGN KEY (`Emp_ID`) REFERENCES `EMPLOYEE` (`Emp_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `EMPLOYEECONTACT`
---
-
-LOCK TABLES `EMPLOYEECONTACT` WRITE;
-/*!40000 ALTER TABLE `EMPLOYEECONTACT` DISABLE KEYS */;
-INSERT INTO `EMPLOYEECONTACT` VALUES (101,9324262925),(101,9345676542),(102,8453647348),(103,7324934642),(104,9327348234),(105,8234313433),(105,9342393732),(106,9342341323),(107,7342423423),(108,7693478673),(109,9465475698),(110,9577687346),(111,7984568435),(111,8594735434),(112,9453454222),(113,8976857321),(114,9864862322),(115,8328428423),(115,9946536224),(117,7873291011),(118,7873291011),(118,7879167693),(119,8974322628);
-/*!40000 ALTER TABLE `EMPLOYEECONTACT` ENABLE KEYS */;
-UNLOCK TABLES;
-
+alter table employee add phone int(10) after Address;
+update employee set date_of_birth = '1994-09-12' where emp_id in (105,107,109,112,115);
+update employee set phone = emp_id * 80719380;
 --
 -- Table structure for table `LIKE_GROUP`
 --
