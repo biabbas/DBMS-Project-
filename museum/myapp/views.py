@@ -692,7 +692,7 @@ def ticket_book(request):
                 "You have already booked ('%s') tickets for this date" %
                 (type))
         c.close()
-        return render(request, "payment.html",context)
+        return  HttpResponse(" Tickets booked succesfully")
         
 
     return render(request, "book_ticket.html", context)
