@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html >
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Museum Management Login form</title>
+        <style>
+      body {
+  background-color:grey;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  background-position-y: 70px;
+
+}
+ul {
+    font-size: 32px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    border: 1px solid #e7e7e7;
+    background-image: linear-gradient(to right,#2193b0 , #6dd5ed);
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+    color: silver;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+  background-image: linear-gradient(to right, #eb3349 , #f45c43)
+}
+
+#boxForm
+{
+
+  width:340px;
+  position:absolute;
+  left: 18%;
+  margin-left:-170px;
+
+}
+
+#boxForm #title
+{
+  font-family: cursive;
+  font-weight:bold;
+  text-align:center;
+  padding-top:30px;
+}
+
+#boxForm form
+{
+  margin-top:20px;
+  text-align:center;
+}
+h3 {
+  font-size: 30px;
+}
+
+.button
+{
+  padding:20px;
+  width:150px;
+  background: transparent;
+ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  
+  font-size:20px;
+   border: none;
+   border-bottom: 2px solid darkviolet;
+
+  cursor:pointer;
+  
+  color:black;
+  font-weight:bold;
+  margin:20px;
+  margin-left:-28px;
+
+  
+}
+
+#sub{
+  color: aliceblue;
+  background-image: linear-gradient(to right,#7b4397 , #dc2430);
+  width: 350px;
+  border: none;
+  border-radius: 30px;
+}
+input:focus{
+  outline: none;
+}
+
+
+
+
+
+
+
+
+
+        </style>
+  </head>
+
+  <body background="{% static "images/Login.jpeg" %}">
+
+    
+      <ul>
+      <li><a href = '/artifact/'> View Artifacts</a></li>
+      <li><a href = '/artist_artifact/'> Explore Artist Works</a></li>
+      <li><a href = '/department_artifact/'> Explore Departments</a></li>
+      <li style="float:right"><a class="active" href="/visitor_reg/"> Register</a></li>
+      </ul>
+    
+    <br><br><br><br><br><br><br><br><br>
+
+  
+    <div id="boxForm" align="left" >
+
+    <h3 id="title">Welcome To the Museum</h3>
+    <form  action="/loginform/" method="POST">{% csrf_token %}
+      <input class='button' type='text' name='fullname' placeholder='Username' required>
+      <br>
+      <input class='button' type='password' name='password' placeholder='Password' required>
+      <br><br>
+
+      <input type="radio" name="options" id="Admin" value="Admin" > Admin </input>
+      <input type="radio" name="options" id="Visitor" value="Visitor" checked> Visitor </input><br>
+  	  <input class='button' id="sub"  type='submit' value='Sign in'><br>
+      
+      <br>
+     </form>
+     </div>
+
+     <br>
+
+
+     
+    
+  </body>
+
+</html>
