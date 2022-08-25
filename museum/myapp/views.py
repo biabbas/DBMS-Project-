@@ -128,13 +128,13 @@ def loginform(request):
                 auth.login(request, user)
                 return HttpResponseRedirect('/administrator/')
             else:
-                return HttpResponse("signup unsuccessful!")
+                return HttpResponse(render(request,"Unsuccesful.html"))
         else:
             user = auth.authenticate(username=fullname, password=password)
             if user is not None:
                 return HttpResponseRedirect('/visitorpage/')
             else:
-                return HttpResponse("signin Unsuccessful!")
+                return HttpResponse(render(request,"Unsuccesful.html"))
     user = auth.authenticate(
         username="Devang", email="Admin", password="mirajeev")
     if user is None:
@@ -212,7 +212,7 @@ def administrator(request):
 
         return render(request, "admin_dashboard.html", context)
     else:
-        return HttpResponse("administrator is not logged in")
+       return HttpResponse(render(request,"Unsuccesful.html"))
 
 
 @login_required
@@ -281,7 +281,7 @@ def artist_reg(request):
 
         return render(request, "reg_artist.html", context)
     else:
-        return HttpResponse("administrator is not logged in")
+        return HttpResponse(render(request,"Unsuccesful.html"))
 
 
 def get_dept_id(dept):
@@ -382,7 +382,7 @@ def artifact_reg(request):
 
         return render(request, "reg_artifact.html", context)
     else:
-        return HttpResponse("administrator is not logged in")
+        return HttpResponse(render(request,"Unsuccesful.html"))
 
 
 @login_required
@@ -459,7 +459,7 @@ def emp_reg(request):
 
         return render(request, "reg_emp.html", context)
     else:
-        return HttpResponse("administrator is not logged in")
+        return HttpResponse(render(request,"Unsuccesful.html"))
 
 
 @login_required
@@ -502,7 +502,7 @@ def department_reg(request):
 
         return render(request, "reg_dept.html")
     else:
-        return HttpResponse("administrator is not logged in")
+        return HttpResponse(render(request,"Unsuccesful.html"))
 
 
 @login_required
