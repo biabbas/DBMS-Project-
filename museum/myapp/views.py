@@ -123,7 +123,7 @@ def loginform(request):
         option = request.POST.get('options')
         if option == "Admin":
             user = auth.authenticate(
-                username=fullname, email="Admin", password=password)
+                username=fullname, password=password)
             if user is not None:
                 auth.login(request, user)
                 return HttpResponseRedirect('/administrator/')
@@ -132,16 +132,11 @@ def loginform(request):
         else:
             user = auth.authenticate(username=fullname, password=password)
             if user is not None:
+                auth.login(request, user)
                 return HttpResponseRedirect('/visitorpage/')
             else:
                 return HttpResponse(render(request,"Unsuccesful.html"))
-    user = auth.authenticate(
-        username="Devang", email="Admin", password="mirajeev")
-    if user is None:
-        user1 = User.objects.create_user("Devang", "Admin", "mirajeev")
-        user1.save()
     save_visitor_auth()
-
     return HttpResponse(render(request, "loginform.html"))
 
 
@@ -636,7 +631,7 @@ def ticket_book(request):
                 "You have already booked ('%s') tickets for this date" %
                 (type))
         c.close()
-        return render(request, "payment.html",context)
+        return HttpResponse("Ticket Booked Successfully")
         
 
     return render(request, "book_ticket.html", context)
